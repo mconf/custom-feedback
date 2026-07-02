@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### v1.12.0
+
+* feat: serve static assets via nginx instead of express
+* feat(frontend): load locales as runtime static assets
+* build: npm audit on backend and frontend
+* docs: add commit message guidelines
+* docs: add CLAUDE.md with codebase guidance
+
 ### v1.11.0
 
 * feat: add early skip for specific reason/error codes
