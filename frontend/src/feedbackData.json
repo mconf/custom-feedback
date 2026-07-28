@@ -1,5 +1,7 @@
 {
+  "initialStep": "rating",
   "rating": {
+    "type": "rating",
     "progress": "01/04",
     "0": 
     {
@@ -47,6 +49,7 @@
     }
   },
   "problem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.problem.title"
     },
@@ -140,6 +143,7 @@
     ]
   },
   "audioProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.audioProblem.title"
     },
@@ -188,6 +192,7 @@
     ]
   },
   "cameraProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.cameraProblem.title"
     },
@@ -236,6 +241,7 @@
     ]
   },
   "connectionProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.connectionProblem.title"
     },
@@ -284,6 +290,7 @@
     ]
   },
   "smartphoneProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.smartphoneProblem.title"
     },
@@ -332,6 +339,7 @@
     ]
   },
   "microphoneProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.microphoneProblem.title"
     },
@@ -380,6 +388,7 @@
     ]
   },
   "interfaceProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.interfaceProblem.title"
     },
@@ -428,6 +437,7 @@
     ]
   },
   "fileUploadProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.fileUploadProblem.title"
     },
@@ -476,6 +486,7 @@
     ]
   },
   "appsGalleryProblem": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.appsGalleryProblem.title"
     },
@@ -533,6 +544,7 @@
     ]
   },
   "like": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.like.title"
     },
@@ -608,6 +620,7 @@
     ]
   },
   "wish": {
+    "type": "options",
     "titleLabel":{
       "id": "app.customFeedback.wish.title"
     },
@@ -656,6 +669,7 @@
     ]
   },
   "email": {
+    "type": "email",
     "titleLabel":{
       "id": "app.customFeedback.email.thank"
     },

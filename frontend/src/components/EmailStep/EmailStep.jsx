@@ -15,13 +15,14 @@ const messages = defineMessages({
 
 const EmailStep = ({ onNext, stepData, intl }) => {
   const [email, setEmail] = useState('');
+  const emailOption = stepData.options?.find((option) => option.type === 'email');
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
   const handleSubmit = () => {
-    onNext(null, { email });
+    onNext(emailOption?.next, { email });
   };
 
   const handleKeyDown = (event) => {
@@ -34,7 +35,7 @@ const EmailStep = ({ onNext, stepData, intl }) => {
     <>
       <Styled.Input
         type="email"
-        placeholder={intl.formatMessage(messages.emailPlaceholder)}
+        placeholder={intl.formatMessage(emailOption?.placeholderLabel || messages.emailPlaceholder)}
         value={email}
         onChange={handleEmailChange}
         onKeyDown={handleKeyDown}
