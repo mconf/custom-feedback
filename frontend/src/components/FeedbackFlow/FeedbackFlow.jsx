@@ -5,7 +5,7 @@ import RatingStep from '../RatingStep/RatingStep';
 import ProblemStep from '../ProblemStep/ProblemStep';
 import EmailStep from '../EmailStep/EmailStep';
 import ConfirmationStep from '../ConfirmatioStep/ConfirmationStep';
-import feedbackData from '../../feedbackData.json';
+import { useFeedbackData } from '../../feedbackData';
 import Styled from './styles';
 
 const messages = defineMessages({
@@ -70,6 +70,7 @@ const CONFIRMATION_STEP = 'confirmation';
 const DEFAULT_INITIAL_STEP = 'rating';
 
 const FeedbackFlow = ({ intl }) => {
+  const feedbackData = useFeedbackData();
   const [currentStep, setCurrentStep] = useState(feedbackData.initialStep || DEFAULT_INITIAL_STEP);
   const [isValidSession, setIsValidSession] = useState(true);
   const [isSkipped, setIsSkipped] = useState(false);
