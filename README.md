@@ -12,7 +12,7 @@ Compatible with Bigbluebutton >= 3.0
 
 The front-end is responsible for the entire user interface. It allows users to interact with the feedback system in a user-friendly and efficient manner.
 
-Additional feedback options can be added or existing options can be modified via the feedbackData.json file. This file is mapped to render the feedback options and steps.
+Additional feedback options can be added or existing options can be modified via the feedbackData.json file. This file is mapped to render the feedback options and steps, and is served as a static asset so it can be overridden per deployment (see [Customizing the feedback form](#customizing-the-feedback-form)).
 
 ### Back-end
 
@@ -70,6 +70,10 @@ sudo cp feedback.nginx /usr/share/bigbluebutton/nginx/feedback.nginx
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
+Upgrading an existing install requires copying the file again: older versions
+proxied the whole `/feedback` path to the back-end, which no longer serves the
+static assets.
+
 The nginx configuration serves static assets (HTML, JS, CSS) directly from disk and proxies only API endpoints to the back-end:
 
 ```nginx
@@ -95,7 +99,90 @@ The redirect URL should be `https://YOUR_BBB_HOST/feedback?userId=%%USERID%%&mee
 
 ## Customizing the feedback form
 
-Consult the example JSON feedback form for more details: [feedbackData.json](frontend/src/feedbackData.json).
+The form definition is shipped as a static JSON asset (not bundled into the app),
+so it can be overridden per deployment without rebuilding. It is served from
+`/usr/share/bigbluebutton/feedback/feedbackData.json` and fetched by the client at
+runtime.
+
+To customize the form on a host:
+
+1. Edit `/usr/share/bigbluebutton/feedback/feedbackData.json`.
+2. No rebuild or restart is required — the client fetches the file on next load.
+
+The container **seeds** the default file only when it is missing, so your
+customizations survive container restarts and image upgrades. To reset the form
+back to the shipped default, delete the file and restart the container.
+
+The whole form — steps, their order and their questions — is data. Step ids are
+arbitrary: what a step *looks like* comes from its `type`, and where it *goes*
+comes from the `next` of the option the user picks. Steps can be added, renamed or
+removed without any code change.
+
+```jsonc
+{
+  "initialStep": "rating",        // which step opens the form (default: "rating")
+
+  "rating": {
+    "type": "rating",             // star scale; stars = highest score listed
+    "progress": "01/04",          // free-form label shown next to the title
+    "1": { "next": "problem" },   // each score picks the step that follows it
+    "5": { "next": "like" }
+  },
+
+  "problem": {
+    "type": "options",            // radios and/or one free-text area
+    "progress": "02/04",
+    "titleLabel": { "id": "app.customFeedback.problem.title" },   // optional
+    "options": [
+      {
+        "type": "radio",
+        "textLabel": { "id": "my.audio.option", "defaultMessage": "Audio" },
+        "next": "audioProblem",   // omit to end the form after this option
+        "key": "problem",         // key/value recorded in the feedback payload
+        "value": "audio"
+      },
+      {
+        "type": "radio",
+        "textLabel": { "id": "app.customFeedback.other" },
+        "next": "email",
+        "key": "problem",
+        "value": "other"          // "other" is what pairs with the text area
+      },
+      {
+        "type": "textArea",
+        "key": "problem_described",
+        "placeholderLabel": { "id": "app.customFeedback.describeProblem" },  // optional
+        "next": "email"           // where typed free text goes; without it the form closes
+      }
+    ]
+  },
+
+  "email": {
+    "type": "email",              // e-mail input; lands in the payload as user.email
+    "progress": "04/04",
+    "options": [
+      { "type": "email", "key": "user.email",
+        "placeholderLabel": { "id": "app.customFeedback.email.placeholder" } }
+    ]
+  }
+}
+```
+
+Step `type` values are `rating`, `options` and `email` — a new *kind of input*
+(anything none of the three can render) is the only change that still needs code.
+`confirmation` is reserved for the closing step, and any step that is reached but
+not described in the file simply ends the form.
+
+Typing free text follows the text area's own `next`, not the one on the `other`
+radio it pairs with, so point both at the same step unless writing an answer is
+meant to end the form earlier.
+
+Labels are message ids resolved against the locale files, so adding a key under
+`/usr/share/bigbluebutton/feedback/locales/` (see the section below) translates a
+custom label. A label may also carry a `defaultMessage`, which is used when no
+locale provides that id — handy for a one-off option you do not want to translate.
+
+Consult the shipped form for the full structure: [feedbackData.json](frontend/public/feedbackData.json).
 
 ## Customizing translations
 
