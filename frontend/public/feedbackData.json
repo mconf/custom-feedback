@@ -488,13 +488,13 @@
   "appsGalleryProblem": {
     "type": "options",
     "titleLabel":{
-      "id": "app.customFeedback.appsGalleryProblem.title"
+      "id": "app.customFeedback.appsGallery.title"
     },
     "progress": "03/04",
     "options":[
       {
         "textLabel":{
-          "id": "app.customFeedback.appsGalleryProblem.findFeature"
+          "id": "app.customFeedback.appsGallery.findFeature"
         },
         "type": "radio",
         "next": "email",
@@ -503,7 +503,7 @@
       },
       {
         "textLabel":{
-          "id": "app.customFeedback.appsGalleryProblem.appFeaturePinUnpin"
+          "id": "app.customFeedback.appsGallery.appFeaturePinUnpin"
         },
         "type": "radio",
         "next": "email",
@@ -512,7 +512,7 @@
       },
       {
         "textLabel":{
-          "id": "app.customFeedback.appsGalleryProblem.appUnusable"
+          "id": "app.customFeedback.appsGallery.appUnusable"
         },
         "type": "radio",
         "next": "email",
@@ -521,7 +521,7 @@
       },
       {
         "textLabel":{
-          "id": "app.customFeedback.appsGalleryProblem.appPinThree"
+          "id": "app.customFeedback.appsGallery.appPinThree"
         },
         "type": "radio",
         "next": "email",
